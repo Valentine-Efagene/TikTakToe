@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".gameFragment.GameFragment">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:background="@color/black"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <ImageButton
+            android:id="@+id/game_tile_1"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:layout_marginEnd="@dimen/inter_game_tile_space"
+            android:layout_marginBottom="@dimen/inter_game_tile_space"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_2"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:layout_marginEnd="@dimen/inter_game_tile_space"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_3"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_4"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:layout_marginBottom="@dimen/inter_game_tile_space"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_5"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_6"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_7"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_8"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+        <ImageButton
+            android:id="@+id/game_tile_9"
+            android:layout_width="@dimen/game_tile_size"
+            android:layout_height="@dimen/game_tile_size"
+            android:background="@android:color/white"
+            android:contentDescription="@string/game_tile" />
+
+    </GridLayout>
+
+    <TextView
+        android:id="@+id/player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:text="@string/game_fragment_title" />
+</LinearLayout>

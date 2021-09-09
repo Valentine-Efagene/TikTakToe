@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="game_tile_size">110dp</dimen>
+    <dimen name="inter_game_tile_space">1dp</dimen>
+</resources>
