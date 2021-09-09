@@ -17,6 +17,8 @@ import com.valentyne.tiktaktoe.databinding.FragmentGameBinding
 class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
     private lateinit var gameViewModel: GameViewModel
+    private var icons: Map<Player, Int> =
+        mapOf(Player.PLAYER_1 to R.drawable.ic_o, Player.PLAYER_2 to R.drawable.ic_x)
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,7 +27,7 @@ class GameFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
@@ -42,8 +44,18 @@ class GameFragment : Fragment() {
         gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         Log.i(TAG, gameViewModel.test)
 
-        this.binding.player.text =
-            if (gameViewModel.player == Player.PLAYER_1) "Player 1" else "Player 2"
+        gameViewModel.currentPlayerLiveData.observe(viewLifecycleOwner,
+            { newPlayer ->
+                binding.player.text = if (newPlayer == Player.PLAYER_1) "Player 1" else "Player 2"
+            })
+
+        gameViewModel.winnerLiveData.observe(viewLifecycleOwner,
+            { winner ->
+                binding.player.text = if (winner == Player.PLAYER_1) "Player 1 has won" else "Player 2 has won"
+            })
+
+        /*this.binding.player.text =
+            if (gameViewModel.player == Player.PLAYER_1) "Player 1" else "Player 2"*/
 
         val gameTiles = mapOf(
             binding.gameTile1 to 1,
@@ -59,10 +71,10 @@ class GameFragment : Fragment() {
 
         for ((gameTile, tileNumber) in gameTiles) {
             gameTile.setOnClickListener {
-                if (!gameViewModel.strategy.contains(tileNumber)) {
-                    gameTile.setImageResource(R.drawable.ic_o)
-                    gameViewModel.strategy.add(tileNumber)
-                    Log.d(TAG, gameViewModel.strategy.toString())
+                if (!gameViewModel.strategy[gameViewModel.currentPlayerLiveData.value]!!.contains(tileNumber)) {
+                    gameTile.setImageResource(icons[gameViewModel.currentPlayerLiveData.value]!!)
+                    gameViewModel.makeMove(tileNumber)
+                    Log.i(TAG, gameViewModel.strategy.toString())
                 }
             }
         }
