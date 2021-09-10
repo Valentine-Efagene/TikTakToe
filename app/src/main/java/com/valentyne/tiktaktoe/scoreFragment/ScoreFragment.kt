@@ -37,15 +37,15 @@ class ScoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnPlayAgain.setOnClickListener {
-            gameViewModel.newMatch()
+        binding.btnBackToGame.setOnClickListener {
             findNavController().navigate(R.id.action_ScoreFragment_to_GameFragment)
         }
 
         binding.textviewSecond.text = resources.getString(
             R.string.score_string,
             gameViewModel.score[Player.PLAYER_1],
-            gameViewModel.score[Player.PLAYER_2]
+            gameViewModel.score[Player.PLAYER_2],
+            gameViewModel.drawCount
         )
     }
 

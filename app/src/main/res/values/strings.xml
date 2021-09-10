@@ -10,6 +10,7 @@
     <string name="game_fragment_title">Game</string>
     <string name="score_fragment_title">Score</string>
     <string name="game_tile">Game Tile</string>
-    <string name="score_string">Player 1: %d, player 2: %d</string>
+    <string name="score_string">Player 1: %d, player 2: %d, draw: %d</string>
     <string name="play_again">Play Again</string>
+    <string name="draw">Draw</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.valentyne.tiktaktoe.gameFragment
 
-import androidx.navigation.fragment.findNavController
+//import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,23 +36,6 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.i(TAG, gameViewModel.test)
-
-        gameViewModel.currentPlayerLiveData.observe(viewLifecycleOwner,
-            { newPlayer ->
-                binding.player.text = if (newPlayer == Player.PLAYER_1) "Player 1" else "Player 2"
-            })
-
-        gameViewModel.winnerLiveData.observe(viewLifecycleOwner,
-            { winner ->
-                binding.player.text = if (winner == Player.PLAYER_1) "Player 1 has won" else "Player 2 has won"
-
-                if (winner != null){
-                    findNavController().navigate(R.id.action_GameFragment_to_ScoreFragment)
-                }
-            })
-
         val gameTiles = mapOf(
             binding.gameTile1 to 1,
             binding.gameTile2 to 2,
@@ -64,6 +47,42 @@ class GameFragment : Fragment() {
             binding.gameTile8 to 8,
             binding.gameTile9 to 9
         )
+
+        binding.btnPlayAgain.setOnClickListener {
+            gameViewModel.newMatch()
+            for (gameTile in gameTiles.keys) {
+                    gameTile.setImageResource(0)
+            }
+        }
+
+        gameViewModel.matchEndedLiveData.observe(viewLifecycleOwner,
+            {
+                binding.tvGameScore.text = resources.getString(
+                    R.string.score_string,
+                    gameViewModel.score[Player.PLAYER_1],
+                    gameViewModel.score[Player.PLAYER_2],
+                    gameViewModel.drawCount
+                )
+            })
+
+        Log.i(TAG, gameViewModel.test)
+
+        gameViewModel.currentPlayerLiveData.observe(viewLifecycleOwner,
+            { newPlayer ->
+                binding.player.text = if (newPlayer == Player.PLAYER_1) "Player 1" else "Player 2"
+            })
+
+        gameViewModel.winnerLiveData.observe(viewLifecycleOwner,
+            { winner ->
+                binding.player.text = if (winner == Player.PLAYER_1) "Player 1 has won" else "Player 2 has won"
+            })
+
+        gameViewModel.drawLiveData.observe(viewLifecycleOwner,
+            { draw ->
+                if (draw){
+                    binding.player.text = getString(R.string.draw)
+                }
+            })
 
         for ((gameTile, tileNumber) in gameTiles) {
             gameTile.setOnClickListener {
