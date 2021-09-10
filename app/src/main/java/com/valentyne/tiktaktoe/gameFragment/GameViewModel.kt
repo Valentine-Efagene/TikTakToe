@@ -1,31 +1,47 @@
 package com.valentyne.tiktaktoe.gameFragment
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
     val test: String = "You are in a game view model"
-    private var player1Strategy: MutableList<Int> = mutableListOf()
-    private var player2Strategy: MutableList<Int> = mutableListOf()
-    val strategy = mapOf(Player.PLAYER_1 to player1Strategy, Player.PLAYER_2 to player2Strategy)
+    val strategy = mapOf(Player.PLAYER_1 to mutableListOf(), Player.PLAYER_2 to mutableListOf<Int>())
+    val score = mutableMapOf(Player.PLAYER_1 to 0, Player.PLAYER_2 to 0)
 
     private val _currentPlayerLiveData = MutableLiveData(Player.PLAYER_1)
-    val currentPlayerLiveData: MutableLiveData<Player>
+    val currentPlayerLiveData: LiveData<Player>
         get() = _currentPlayerLiveData
 
     private val _winnerLiveData = MutableLiveData<Player>()
-    val winnerLiveData: MutableLiveData<Player>
+    val winnerLiveData: LiveData<Player>
         get() = _winnerLiveData
 
-    fun makeMove(tileNumber: Int) {
-        currentPlayerLiveData.value = if (currentPlayerLiveData.value == Player.PLAYER_1) {
-            player1Strategy.add(tileNumber)
+    /*private fun setCurrentPlayer(player: Player) {
+        _currentPlayerLiveData.value = player
+    }*/
+
+    private fun setWinner(player: Player) {
+        _winnerLiveData.value = player
+    }
+
+    fun newMatch() {
+        _winnerLiveData.value = null
+        strategy[Player.PLAYER_1]?.clear()
+        strategy[Player.PLAYER_2]?.clear()
+    }
+
+    fun changeTurn() {
+        _currentPlayerLiveData.value = if (currentPlayerLiveData.value == Player.PLAYER_1) {
             Player.PLAYER_2
         } else {
-            player2Strategy.add(tileNumber)
             Player.PLAYER_1
         }
+    }
 
+    fun makeMove(tileNumber: Int) {
+        strategy[currentPlayerLiveData.value]?.add(tileNumber)
+        changeTurn()
         checkWinner(Player.PLAYER_1)
         checkWinner(Player.PLAYER_2)
     }
@@ -45,7 +61,8 @@ class GameViewModel : ViewModel() {
 
         for (winningStrategy in winningStrategies) {
             if (strategy!!.containsAll(winningStrategy)) {
-                winnerLiveData.value = player
+                score[player] = score[player]!! + 1
+                setWinner(player)
                 return
             }
         }

@@ -1,13 +1,13 @@
 package com.valentyne.tiktaktoe.gameFragment
 
-//import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.findNavController
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.valentyne.tiktaktoe.R
 import com.valentyne.tiktaktoe.databinding.FragmentGameBinding
 
@@ -16,7 +16,7 @@ import com.valentyne.tiktaktoe.databinding.FragmentGameBinding
  */
 class GameFragment : Fragment() {
     private var _binding: FragmentGameBinding? = null
-    private lateinit var gameViewModel: GameViewModel
+    private val gameViewModel: GameViewModel by activityViewModels()
     private var icons: Map<Player, Int> =
         mapOf(Player.PLAYER_1 to R.drawable.ic_o, Player.PLAYER_2 to R.drawable.ic_x)
 
@@ -37,11 +37,6 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }*/
-
-        gameViewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         Log.i(TAG, gameViewModel.test)
 
         gameViewModel.currentPlayerLiveData.observe(viewLifecycleOwner,
@@ -52,10 +47,11 @@ class GameFragment : Fragment() {
         gameViewModel.winnerLiveData.observe(viewLifecycleOwner,
             { winner ->
                 binding.player.text = if (winner == Player.PLAYER_1) "Player 1 has won" else "Player 2 has won"
-            })
 
-        /*this.binding.player.text =
-            if (gameViewModel.player == Player.PLAYER_1) "Player 1" else "Player 2"*/
+                if (winner != null){
+                    findNavController().navigate(R.id.action_GameFragment_to_ScoreFragment)
+                }
+            })
 
         val gameTiles = mapOf(
             binding.gameTile1 to 1,
